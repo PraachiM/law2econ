@@ -1,0 +1,89 @@
+---
+title: "Electoral Bond data: Making it usable"
+author: "Praachi Misra"
+
+date: "11/01/2026"
+# date-modified: "5/23/2021"
+
+draft: true 
+
+categories: [electoral bond]
+image: "image.jpg"
+
+bibliography: /Users/misra.praachi/QuartoBundle/MyLibrary.bib
+citation: true
+csl: /Users/misra.praachi/QuartoBundle/apa.csl
+
+# freeze computational output
+freeze: true
+---
+
+```{r}
+
+```
+
+!-- Intro —
+
+We will create the following folders/ directories to manage the files
+
+1.  data
+
+2.  data/raw (i.e. a folder titled 'raw' within the 'data' folder)
+
+3.  data/processed (i.e. a folder titled 'raw' within the 'data' folder)
+
+4.  fig
+
+### Step 1: Obtain files from election Commission of India (ECI)
+
+Go to the [ECI](https://www.eci.gov.in/disclosure-of-electoral-bonds) website and download these files into your "data/*raw*" folder:
+
+1.  *"Details of Electoral Bonds submitted by SBI on 21st March 2024 (EB_Redemption_Details)"* ➡️ \[**rename this file '*party.pdf'***\]
+
+    ![Data on redemption of bonds by political parties](image/party.png){width="1800"}
+
+2.  *"Details of Electoral Bonds submitted by SBI on 21st March 2024 (EB_Purchase_Details)"* ➡️ \[**rename this file '*buyer.pdf'***\]
+
+    ![Data on purchase of bonds by political parties](image/buyer.png){width="1800"}
+
+### Step 2: Convert files from pdf to data frame
+
+We will use Tabula to convert the pdf to a table and data frame for further processing
+
+-   Install [Tabula](https://tabula.technology/)
+
+-   Open the zip folder installed
+
+-   Open the Tabula application. It will open in a browser window
+
+-   Browse ➜ select file ➜ import
+
+    ![Tabula screen](image/tabula.png){width="1800"}
+
+-   Select the table on page and then select from the drop down: 'Repeat this Selection/ Repeat to all Pages' ➜ 'Preview and Export the Extracted data'
+
+    ![](image/tabula_selection.png){width="1800"}
+
+Export to 'data/raw' folder as csv. The files will be labelled **tabula_buyer.csv** & **tabula_party.csv**
+
+### Step 3: Starting the cleaning process
+
+1.  Converting csv to data frame
+
+    The csv will be saved and minimally processed. They will be saved in the 'data/processed' folder
+
+    ```{r}
+
+    ```
+
+2.  Checking for data completeness in the csv files
+
+    -- The buyer.pdf has 18871 rows
+
+    -- The party.pdf has 20421 rows
+
+    ```{r}
+
+    ```
+
+3.  
