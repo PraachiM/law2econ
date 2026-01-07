@@ -121,7 +121,7 @@ rm(pakg)
     | rm(pakg)
     | here()
     | 
-    | \#  get file path & use load function
+    | \# get file path & use load function
     | 
     | load("./\<*path*\>/data/processed/df_buyer.Rda")
     | load( "./\<*path*\>/data/processed/df_party.Rda")
@@ -160,18 +160,55 @@ rm(pakg)
 
     # Date
 
-   df_buyer <- df_buyer |> 
-        mutate(Journal.Date = (as.Date(Journal.Date, format = "%d/%b/%Y")), 
-              Date.of.Purchase = (as.Date(Date.of.Purchase, format = "%d/%b/%Y")),
+    df_buyer <-   df_buyer |> 
+        mutate(Journal.Date = as.Date(Journal.Date, format = "%d/%b/%Y"), 
+              Date.of.Purchase = as.Date(Date.of.Purchase, format = "%d/%b/%Y"),
               Date.of.Expiry = as.Date(Date.of.Expiry, format = "%d/%b/%Y"))
-   
-   # Money
-   
-   
+
+    # Money
+    # The presence of commas is throwing off the conversion directly from char to numeric
+    # Therefore, we remove the commas using gsub, and then convert the values
+
+    df_buyer <- df_buyer |> 
+        mutate(Denominations = as.integer(gsub(",","", Denominations)))
 
     ```
 
-5.  Checking for data completeness in the csv files
+5.  Repeating the same for the df_party data frame
+
+    ```{r}
+    # Integer value
+    df_party <- df_party |> 
+        mutate(Sr.No.=  as.numeric(Sr.No., Bond.Number, Pay.Teller))
+
+    # Date
+    df_party <-  df_party |> 
+        mutate(Date.of.Encashment = as.Date(Date.of.Encashment, format = "%d/%b/%Y"))
+
+    # Money 
+
+    df_party <- df_party |> 
+        mutate(Denominations = as.integer(gsub(",","",Denominations)))
+
+    ```
+
+6.  Checking for duplicates
+
+    ```{r}
+
+    sum(duplicated(df_buyer))
+
+    df_buyer %>%
+      group_by_all() %>%
+      filter(n() > 1) %>%
+      ungroup()
+
+    df_buyer <-  unique(df_buyer)
+    df_party <- unique(df_party)
+
+    ```
+
+7.  Checking for data completeness in the csv files
 
     -- The buyer.pdf has 18871 rows
 
@@ -183,9 +220,9 @@ rm(pakg)
 
     ```
 
-6.  Checking for duplicates
+8.  Checking for duplicates
 
-7.  Cleaning variable (i.e.) column names
+9.  Cleaning variable (i.e.) column names
 
     . followed by small case to be removed
 
@@ -193,7 +230,7 @@ rm(pakg)
     names(frame) <- sub("\.$", "", names(frame))
     ```
 
-8.  Saving the files as data frames
+10. Saving the files as data frames
 
 ```{r}
 save(df_buyer, file = "./data/processed/df_buyer.Rda")
