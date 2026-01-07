@@ -18,11 +18,7 @@ csl: /Users/misra.praachi/QuartoBundle/apa.csl
 freeze: true
 ---
 
-```{r}
-
-```
-
-!-- Intro —
+<!-- Intro -->
 
 We will create the following folders/ directories to manage the files
 
@@ -33,6 +29,16 @@ We will create the following folders/ directories to manage the files
 3.  data/processed (i.e. a folder titled 'raw' within the 'data' folder)
 
 4.  fig
+
+<!-- insert image of folder -->
+
+To make code sharing easier and not have to check for directory, we will make the directory we are working in the working directory.
+
+```{r}
+#| label: Dir setup
+library("here")
+here()
+```
 
 ### Step 1: Obtain files from election Commission of India (ECI)
 
@@ -66,17 +72,106 @@ We will use Tabula to convert the pdf to a table and data frame for further proc
 
 Export to 'data/raw' folder as csv. The files will be labelled **tabula_buyer.csv** & **tabula_party.csv**
 
-### Step 3: Starting the cleaning process
+### Step 3: Setting up packages for the cleaning
+
+We will be using the following packages: dplyr, lubridate, stringr, tidyr, ggplot2
+
+```{r}
+#| label: package mgmt
+#| warning: true
+#| include: false
+#| results: hide
+
+
+pakg <- c("dplyr", "lubridate", "stringr", "tidyr", "ggplot2")
+
+sapply(pakg, library, character.only = TRUE)
+
+rm(pakg)
+
+```
+
+### Step 4: Starting the cleaning process
 
 1.  Converting csv to data frame
 
-    The csv will be saved and minimally processed. They will be saved in the 'data/processed' folder
+    The csv will be saved and minimally processed. They will be saved in the 'data/processed' folder with the names **df_buyer, df_party**
 
     ```{r}
+    #| label: csv to df 
+
+    df_buyer <- read.csv("./data/raw/tabula_buyer.csv")
+    df_party <- read.csv("./data/raw/tabula_party.csv")
+
 
     ```
 
-2.  Checking for data completeness in the csv files
+2.  Saving as a data frame in the processed folder
+
+    ```{r}
+    save(df_buyer,file = "./data/processed/df_buyer.Rda")
+    save(df_party,file = "./data/processed/df_party.Rda")
+    ```
+
+    👷 When you come back to work after a break, use the *load* function to start working on the data frame again.
+
+    | 
+    | pakg \<- c("dplyr", "lubridate", "stringr", "tidyr", "ggplot2", "here")
+    | sapply(pakg, library, character.only = TRUE)
+    | rm(pakg)
+    | here()
+    | 
+    | \#  get file path & use load function
+    | 
+    | load("./\<*path*\>/data/processed/df_buyer.Rda")
+    | load( "./\<*path*\>/data/processed/df_party.Rda")
+
+3.  Checking data type
+
+    Given below are 4 different ways of getting a flavor of the data type (*glimpse, head, str, class*).
+
+    ```{r}
+
+    glimpse(df_buyer)
+
+    ```
+
+    ```{r}
+    head(df_buyer, 5)
+    ```
+
+    ```{r}
+
+    str(df_party)
+
+    ```
+
+    ```{r}
+    lapply(df_party, class)
+    ```
+
+4.  As the data is all in character type we will have to change each col to the type we require
+
+    ```{r}
+    # Integer values
+
+    df_buyer <-   df_buyer |> 
+        mutate(across(c(Sr.No., Bond.Number, Issue.Teller), as.integer))
+
+    # Date
+
+   df_buyer <- df_buyer |> 
+        mutate(Journal.Date = (as.Date(Journal.Date, format = "%d/%b/%Y")), 
+              Date.of.Purchase = (as.Date(Date.of.Purchase, format = "%d/%b/%Y")),
+              Date.of.Expiry = as.Date(Date.of.Expiry, format = "%d/%b/%Y"))
+   
+   # Money
+   
+   
+
+    ```
+
+5.  Checking for data completeness in the csv files
 
     -- The buyer.pdf has 18871 rows
 
@@ -84,6 +179,23 @@ Export to 'data/raw' folder as csv. The files will be labelled **tabula_buyer.cs
 
     ```{r}
 
+
+
     ```
 
-3.  
+6.  Checking for duplicates
+
+7.  Cleaning variable (i.e.) column names
+
+    . followed by small case to be removed
+
+    ```         
+    names(frame) <- sub("\.$", "", names(frame))
+    ```
+
+8.  Saving the files as data frames
+
+```{r}
+save(df_buyer, file = "./data/processed/df_buyer.Rda")
+save(df_party, file = "./data/processed/df_party.Rda")
+```

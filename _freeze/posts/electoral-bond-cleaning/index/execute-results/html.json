@@ -1,0 +1,15 @@
+{
+  "hash": "5aa4b9672f55be2bd9cffee354d030ef",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"Electoral Bond data: Making it usable\"\nauthor: \"Praachi Misra\"\n\ndate: \"11/01/2026\"\n# date-modified: \"5/23/2021\"\n\ndraft: true \n\ncategories: [electoral bond]\nimage: \"image.jpg\"\n\nbibliography: /Users/misra.praachi/QuartoBundle/MyLibrary.bib\ncitation: true\ncsl: /Users/misra.praachi/QuartoBundle/apa.csl\n\n# freeze computational output\nfreeze: true\n---\n\n\n::: {.cell}\n\n:::\n\n\n!-- Intro —\n\n### Step 1: Obtain files from election Commission of India (ECI)\n\nGo to the [ECI](https://www.eci.gov.in/disclosure-of-electoral-bonds) website and download these files into your \"*raw*\" folder:\n\n1.  *\"Details of Electoral Bonds submitted by SBI on 21st March 2024 (EB_Redemption_Details)\"* ➡️ \\[**rename this file '*party.pdf'***\\]\n\n    ![Data on redemption of bonds by political parties](image/party.png){width=\"1800\"}\n\n2.  *\"Details of Electoral Bonds submitted by SBI on 21st March 2024 (EB_Purchase_Details)\"* ➡️ \\[**rename this file '*buyer.pdf'***\\]\n\n    ![Data on purchase of bonds by political parties](image/buyer.png){width=\"1800\"}\n\n### Step 2: Convert files from pdf to data frame\n\nWe will use Tabula to convert the pdf to a table and data frame for further processing\n\n-   Install [Tabula](https://tabula.technology/)\n\n-   Open the zip folder installed\n\n-   Open the Tabula application. It will open in a browser window\n\n-   Browse ➜ select file ➜ import\n\n    ![Tabula screen](image/tabula.png){width=\"1800\"}\n\n-   Select the table on page and then select from the dropdown: 'Repeat this Selection/ Repeat to all Pages' ➜ 'Preview and Export the Extracted data'\n\n    ![](image/tabula_selection.png){width=\"1800\"}\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}
