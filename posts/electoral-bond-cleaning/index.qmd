@@ -115,16 +115,25 @@ rm(pakg)
 
     👷 When you come back to work after a break, use the *load* function to start working on the data frame again.
 
-    | 
-    | pakg \<- c("dplyr", "lubridate", "stringr", "tidyr", "ggplot2", "here")
-    | sapply(pakg, library, character.only = TRUE)
-    | rm(pakg)
-    | here()
-    | 
-    | \# get file path & use load function
-    | 
-    | load("./\<*path*\>/data/processed/df_buyer.Rda")
-    | load( "./\<*path*\>/data/processed/df_party.Rda")
+    > pakg \<- c("dplyr", "lubridate", "stringr", "tidyr", "ggplot2", "here")
+    >
+    > sapply(pakg, library, character.only = TRUE)
+    >
+    > rm(pakg)
+    >
+    > here()
+    >
+    > \# get file path & use load function
+    >
+    > load("./\<path\>/data/processed/df_buyer.Rda")
+    >
+    > load( "./\<path\>/data/processed/df_party.Rda")
+
+    The data frame can be saved using the save function
+
+    > save(df_buyer, file = "./data/processed/df_buyer.Rda")
+    >
+    > save(df_party, file = "./data/processed/df_party.Rda")
 
 3.  Checking data type
 
@@ -151,6 +160,8 @@ rm(pakg)
     ```
 
 4.  As the data is all in character type we will have to change each col to the type we require
+
+    You will some warning messages (NA's introduced by coercion), we will come back to them later
 
     ```{r}
     # Integer values
@@ -192,20 +203,19 @@ rm(pakg)
 
     ```
 
-6.  Checking for duplicates
+6.  Making unique
+
+    Duplicates are removed, by looking for duplicates along all variables. There is a unique serial number for each row, so no useful data should be removed by using the unique function.
 
     ```{r}
-
-    sum(duplicated(df_buyer))
-
-    df_buyer %>%
-      group_by_all() %>%
-      filter(n() > 1) %>%
-      ungroup()
 
     df_buyer <-  unique(df_buyer)
     df_party <- unique(df_party)
 
+    # Count duplicated rows
+
+    sum(duplicated(df_buyer))
+    sum(duplicated(df_party))
     ```
 
 7.  Checking for data completeness in the csv files
@@ -216,13 +226,54 @@ rm(pakg)
 
     ```{r}
 
+    print(paste(sum(is.na(df_party)),": NA in df_party"))
+    print(paste(sum(is.na(df_buyer)),"NA in :df_buyer"))
 
 
     ```
 
-8.  Checking for duplicates
+See the rows that contain NA values
 
-9.  Cleaning variable (i.e.) column names
+```{r}
+df_buyer[!complete.cases(df_buyer), ]
+```
+
+Seeing for df_party as well
+
+```{r}
+
+df_party[!complete.cases(df_party), ]
+```
+
+9.  Remove header row from data
+
+```{r}
+
+df_buyer <- df_buyer |> 
+    filter(!grepl("Reference", Reference.No...URN.))
+
+df_buyer[!complete.cases(df_buyer), ]
+```
+
+For df_party
+
+```{r}
+
+df_party <- df_party |> 
+    filter(!grepl("Name", Name.of.the.Political.Party))
+
+df_party[!complete.cases(df_party), ]
+```
+
+9.  Identify the missing rows using Sr. No.
+
+    We now have to find the missing rows. We can use the absence of a serial number (between 1:18871 for df_buyer and 1:20421 for df_party)
+
+    ```{r}
+
+    ```
+
+10. Cleaning variable/column names
 
     . followed by small case to be removed
 
@@ -230,9 +281,6 @@ rm(pakg)
     names(frame) <- sub("\.$", "", names(frame))
     ```
 
-10. Saving the files as data frames
+11. Consolidating based on Names and Dates
 
-```{r}
-save(df_buyer, file = "./data/processed/df_buyer.Rda")
-save(df_party, file = "./data/processed/df_party.Rda")
-```
+### Step 5: Cleaning Names
