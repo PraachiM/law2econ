@@ -190,7 +190,7 @@ rm(pakg)
     ```{r}
     # Integer value
     df_party <- df_party |> 
-        mutate(Sr.No.=  as.numeric(Sr.No., Bond.Number, Pay.Teller))
+        mutate(across(c(Sr.No., Bond.Number, Pay.Teller), as.integer))
 
     # Date
     df_party <-  df_party |> 
@@ -270,10 +270,113 @@ df_party[!complete.cases(df_party), ]
     We now have to find the missing rows. We can use the absence of a serial number (between 1:18871 for df_buyer and 1:20421 for df_party)
 
     ```{r}
+    #| label: Missing rows: buyer
+
+    miss_buyer <- setdiff(1:18871, df_buyer$Sr.No.)
+    print(paste("Buyer Missing:",length(miss_buyer)))
+    miss_buyer
+
+    miss_party <- setdiff(1:20421, df_party$Sr.No.)
+    print(paste("Party Missing:", length(miss_party)))
+    miss_party
+
+    rm(miss_party,miss_buyer)
 
     ```
 
-10. Cleaning variable/column names
+10. Adding the missing rows to the party data frame
+
+    This error of missing rows may not occur for everybody. In this case, i will be extracting and appending the data.
+
+    On a review of the pdf on Tabula, it shows that pg 38 (Sr.No. 1370-1406 has not been extracted).
+
+    ```{r}
+    #| label: Missing party data
+
+    df_miss_party <- read.csv("./data/raw/tabula_miss_party.csv")
+
+    glimpse(df_miss_party)
+
+    test_party <- df_party
+    test_party <- rbind(test_party,df_miss_party)
+
+    ```
+
+    Simply using the rbind fn will give errors as we have made modifications to the data frame.
+
+```{r}
+# Integer value
+df_miss_party <- df_miss_party |> 
+    mutate(Sr.No.=  as.numeric(Sr.No., Bond.Number, Pay.Teller))
+
+# Date
+df_miss_party <-  df_miss_party |> 
+    mutate(Date.of.Encashment = as.Date(Date.of.Encashment, format = "%d/%b/%Y"))
+
+# Money 
+
+df_miss_party <- df_miss_party |> 
+    mutate(Denominations = as.integer(gsub(",","",Denominations)))
+
+df_miss_party <- unique(df_miss_party)
+
+str(df_miss_party)
+
+test_party <- rbind(test_party,df_miss_party)
+
+df_party <- test_party
+
+rm(test_party)
+
+```
+
+9.  Merging the two data frames
+
+Bond number is a unique identifier across both the df_party and df_buyer data frame. We will first find the difference between the bond numbers listed in both
+
+```{r}
+#| label: Bond number review
+
+# str(df_buyer$Bond.Number, df_party$Bond.Number)
+
+print ("Buyer purchased bonds not encashed")
+x <- setdiff(df_buyer$Bond.Number,df_party$Bond.Number)
+print(length(x))
+x
+
+print ("Party encashed bonds not in buyer")
+y <- setdiff(df_party$Bond.Number, df_buyer$Bond.Number)
+print(length(y))
+y
+
+rm(x,y)
+
+
+```
+
+Bonds purchased
+
+```{r}
+print(paste("Value bonds purchased", sum(df_buyer$Denominations)))
+
+print(paste("Value bonds encashed", sum(df_party$Denominations)))
+
+z <- (sum(df_buyer$Denominations)- sum(df_party$Denominations))
+    
+z
+
+print(paste("Purchased - Encashed: ", z))
+
+rmultinom(z)
+```
+
+9.  Consolidating based on Names and Dates
+
+### Step 5: Merging the files
+
+### Step 6: Cleaning Names
+
+1.  Cleaning variable/column names
 
     . followed by small case to be removed
 
@@ -281,6 +384,4 @@ df_party[!complete.cases(df_party), ]
     names(frame) <- sub("\.$", "", names(frame))
     ```
 
-11. Consolidating based on Names and Dates
-
-### Step 5: Cleaning Names
+2.  
