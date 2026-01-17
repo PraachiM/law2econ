@@ -392,6 +392,8 @@ save(df_merge_buyerParty, file = "./data/processed/df_merge_buyerParty.Rda")
 df_merge_buyerParty |> 
     filter(Denominations.x != Denominations.y)
 
+df_merge_buyerParty <- subset(df_merge_buyerParty, select = -Denominations.y)
+
 ```
 
 ### Step 6: Cleaning Names
