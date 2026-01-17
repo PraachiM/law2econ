@@ -340,16 +340,17 @@ Bond number is a unique identifier across both the df_party and df_buyer data fr
 # str(df_buyer$Bond.Number, df_party$Bond.Number)
 
 print ("Buyer purchased bonds not encashed")
-x <- setdiff(df_buyer$Bond.Number,df_party$Bond.Number)
-print(length(x))
-x
+bought_notcashed <- setdiff(df_buyer$Bond.Number,df_party$Bond.Number)
+print(length(bought_notcashed))
+bought_notcashed
+
 
 print ("Party encashed bonds not in buyer")
-y <- setdiff(df_party$Bond.Number, df_buyer$Bond.Number)
-print(length(y))
-y
+cashed_notbought <- setdiff(df_party$Bond.Number, df_buyer$Bond.Number)
+print(length(cashed_notbought))
+cashed_notbought
 
-rm(x,y)
+
 
 
 ```
@@ -365,23 +366,44 @@ z <- (sum(df_buyer$Denominations)- sum(df_party$Denominations))
     
 z
 
-print(paste("Purchased - Encashed: ", z))
+print(paste("Purchased - Encashed: ", z/10^7 , " crore"))
 
-rmultinom(z)
+rm(z)
 ```
-
-9.  Consolidating based on Names and Dates
 
 ### Step 5: Merging the files
 
+We want to create 2 seperate data frames
+
+-   Buyer and party mapped one-one based on matching of bond numbers + Bonds purchased but not encashed
+
+-   Bonds encashed but there is no linked buyer party available
+
+```{r}
+#| label: merging files to keep all buyer details
+
+df_merge_buyerParty <-  left_join(df_buyer,df_party[,c("Name.of.the.Political.Party", "Denominations", "Bond.Number", "Prefix")], by = c("Bond.Number", "Prefix"))
+
+save(df_merge_buyerParty, file = "./data/processed/df_merge_buyerParty.Rda")
+
+# We check if the buyer amount and party encashed amount are not matching
+# They are matching. So we can proceed to the data frame cleanup operations
+
+df_merge_buyerParty |> 
+    filter(Denominations.x != Denominations.y)
+
+```
+
 ### Step 6: Cleaning Names
 
-1.  Cleaning variable/column names
+1.  Consolidating based on Names and Dates
 
-    . followed by small case to be removed
+2.  Cleaning variable/column names
+
+3.  . followed by small case to be removed
 
     ```         
     names(frame) <- sub("\.$", "", names(frame))
     ```
 
-2.  
+4.  
