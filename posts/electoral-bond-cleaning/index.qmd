@@ -344,11 +344,16 @@ bought_notcashed <- setdiff(df_buyer$Bond.Number,df_party$Bond.Number)
 print(length(bought_notcashed))
 bought_notcashed
 
+rm(bought_notcashed)
+
+# ------
 
 print ("Party encashed bonds not in buyer")
 cashed_notbought <- setdiff(df_party$Bond.Number, df_buyer$Bond.Number)
 print(length(cashed_notbought))
-cashed_notbought
+sort(cashed_notbought)
+
+rm(cashed_notbought)
 
 
 
@@ -373,7 +378,7 @@ rm(z)
 
 ### Step 5: Merging the files
 
-We want to create 2 seperate data frames
+We want to create 2 separate data frames
 
 -   Buyer and party mapped one-one based on matching of bond numbers + Bonds purchased but not encashed
 
@@ -396,7 +401,46 @@ df_merge_buyerParty <- subset(df_merge_buyerParty, select = -Denominations.y)
 
 ```
 
-### Step 6: Cleaning Names
+Creating the second data frame, of bonds encashed but there is no linked buyer party available
+
+```{r}
+#| label: bonds encashed but there is no linked buyer party
+
+df_unknownBuyer <- anti_join(df_party, df_buyer, by = "Bond.Number",)
+
+
+df_unknownBuyer |> 
+    group_by(Bond.Number) |> 
+    filter(n()>1)
+
+# The difference in number with the earlier check 'cashed_notbought' arises due to the same bond number with different Prefix
+
+```
+
+### Step 6: Summarising party wise unknown buyer data
+
+```{r}
+
+df_unknownBuyer |> 
+    group_by(Name.of.the.Political.Party) |> 
+    summarise(amount_rcvd = sum(Denominations)) |> 
+    arrange(desc(amount_rcvd))
+
+# summarising by date and party
+
+df_sum_unknownBuyer <- df_unknownBuyer |> 
+    group_by(Name.of.the.Political.Party, Date.of.Encashment) |> 
+    summarise(amount_rcvd = sum(Denominations)) |> 
+    arrange(desc(amount_rcvd))
+
+save(df_sum_unknownBuyer, file = "./data/processed/df_sum_unknownBuyer.Rda")
+
+save(df_unknownBuyer, file = "./data/processed/df_unknownBuyer.Rda")
+
+
+```
+
+### Step 7: Cleaning Names
 
 1.  Consolidating based on Names and Dates
 
