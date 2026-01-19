@@ -360,6 +360,22 @@ rm(cashed_notbought)
 
 ```
 
+10. Looking at gaps using both Bond Number and prefix
+
+```{r}
+anti_join(df_buyer, df_party, by = c("Bond.Number","Prefix"))
+
+# 18871-130 = 18741 linked from buyer to party
+# We have merged the party data frame into df_buyer so as to keep all the names of buyers and amounts, even if we do not have data on the redemption
+
+anti_join(df_party, df_buyer, by = c("Bond.Number","Prefix"))
+
+# We will use this data frame for the unknown buyer set 
+# 20421 - 1680 = 18941
+
+# there is a gap of 200 between both 18941-18741 = 200
+```
+
 Bonds purchased
 
 ```{r}
@@ -406,11 +422,12 @@ Creating the second data frame, of bonds encashed but there is no linked buyer p
 ```{r}
 #| label: bonds encashed but there is no linked buyer party
 
-df_unknownBuyer <- anti_join(df_party, df_buyer, by = "Bond.Number",)
+df_unknownBuyer <- anti_join(df_party, df_buyer, by = c("Bond.Number","Prefix"))
 
 
 df_unknownBuyer |> 
     group_by(Bond.Number) |> 
+    arrange(desc(Bond.Number)) |> 
     filter(n()>1)
 
 # The difference in number with the earlier check 'cashed_notbought' arises due to the same bond number with different Prefix
@@ -444,9 +461,17 @@ save(df_unknownBuyer, file = "./data/processed/df_unknownBuyer.Rda")
 
 1.  Consolidating based on Names and Dates
 
+    ```{r}
+    #| label: variable name cleaning
+
+    ls(df_merge_buyerParty)
+
+    # names(df_merge_buyerParty)
+    ```
+
 2.  Cleaning variable/column names
 
-3.  . followed by small case to be removed
+3.  \[. followed by small case to be removed\]
 
     ```         
     names(frame) <- sub("\.$", "", names(frame))
