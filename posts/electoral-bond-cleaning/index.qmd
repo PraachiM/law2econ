@@ -1,14 +1,14 @@
 ---
-title: "Electoral Bond data: Making it usable"
-author: "Praachi Misra"
+title: Electoral Bond data: Making it usable
+author: Praachi Misra
 
-date: "11/01/2026"
-# date-modified: "5/23/2021"
+date: 11/01/2026
+# date-modified: 5/23/2021
 
 draft: true 
 
 categories: [electoral bond]
-image: "image.jpg"
+image: image.jpg
 
 bibliography: /Users/misra.praachi/QuartoBundle/MyLibrary.bib
 citation: true
@@ -36,19 +36,19 @@ To make code sharing easier and not have to check for directory, we will make th
 
 ```{r}
 #| label: Dir setup
-library("here")
+library(here)
 here()
 ```
 
 ### Step 1: Obtain files from election Commission of India (ECI)
 
-Go to the [ECI](https://www.eci.gov.in/disclosure-of-electoral-bonds) website and download these files into your "data/*raw*" folder:
+Go to the [ECI](https://www.eci.gov.in/disclosure-of-electoral-bonds) website and download these files into your data/*raw* folder:
 
-1.  *"Details of Electoral Bonds submitted by SBI on 21st March 2024 (EB_Redemption_Details)"* ➡️ \[**rename this file '*party.pdf'***\]
+1.  *Details of Electoral Bonds submitted by SBI on 21st March 2024 (EB_Redemption_Details)* ➡️ \[**rename this file '*party.pdf'***\]
 
     ![Data on redemption of bonds by political parties](image/party.png){width="1800"}
 
-2.  *"Details of Electoral Bonds submitted by SBI on 21st March 2024 (EB_Purchase_Details)"* ➡️ \[**rename this file '*buyer.pdf'***\]
+2.  *Details of Electoral Bonds submitted by SBI on 21st March 2024 (EB_Purchase_Details)* ➡️ \[**rename this file '*buyer.pdf'***\]
 
     ![Data on purchase of bonds by political parties](image/buyer.png){width="1800"}
 
@@ -83,7 +83,7 @@ We will be using the following packages: dplyr, lubridate, stringr, tidyr, ggplo
 #| results: hide
 
 
-pakg <- c("dplyr", "lubridate", "stringr", "tidyr", "ggplot2")
+pakg <- c(dplyr, lubridate, stringr, tidyr, ggplot2)
 
 sapply(pakg, library, character.only = TRUE)
 
@@ -100,8 +100,8 @@ rm(pakg)
     ```{r}
     #| label: csv to df 
 
-    df_buyer <- read.csv("./data/raw/tabula_buyer.csv")
-    df_party <- read.csv("./data/raw/tabula_party.csv")
+    df_buyer <- read.csv(./data/raw/tabula_buyer.csv)
+    df_party <- read.csv(./data/raw/tabula_party.csv)
 
 
     ```
@@ -109,31 +109,37 @@ rm(pakg)
 2.  Saving as a data frame in the processed folder
 
     ```{r}
-    save(df_buyer,file = "./data/processed/df_buyer.Rda")
-    save(df_party,file = "./data/processed/df_party.Rda")
+    save(df_buyer,file = ./data/processed/df_buyer.Rda)
+    save(df_party,file = ./data/processed/df_party.Rda)
     ```
 
     👷 When you come back to work after a break, use the *load* function to start working on the data frame again.
 
-    > pakg \<- c("dplyr", "lubridate", "stringr", "tidyr", "ggplot2", "here")
-    >
-    > sapply(pakg, library, character.only = TRUE)
-    >
-    > rm(pakg)
-    >
-    > here()
-    >
-    > \# get file path & use load function
-    >
-    > load("./\<path\>/data/processed/df_buyer.Rda")
-    >
-    > load( "./\<path\>/data/processed/df_party.Rda")
+    ```{r}
+    #| label: starting code
+    #| eval: false
+    #| include: false
 
-    The data frame can be saved using the save function
+    pakg <- c(dplyr, lubridate, stringr, tidyr, ggplot2, here)
 
-    > save(df_buyer, file = "./data/processed/df_buyer.Rda")
-    >
-    > save(df_party, file = "./data/processed/df_party.Rda")
+    sapply(pakg, library, character.only = TRUE)
+
+    rm(pakg)
+
+    here()
+
+    # get file path & use load function
+
+    load(./<path>/data/processed/df_buyer.Rda)
+
+    load( ./<path>/data/processed/df_party.Rda)
+
+    # The data frame can be saved using the save function
+
+    save(df_buyer, file = ./data/processed/df_buyer.Rda)
+
+    save(df_party, file = ./data/processed/df_party.Rda)
+    ```
 
 3.  Checking data type
 
@@ -172,16 +178,16 @@ rm(pakg)
     # Date
 
     df_buyer <-   df_buyer |> 
-        mutate(Journal.Date = as.Date(Journal.Date, format = "%d/%b/%Y"), 
-              Date.of.Purchase = as.Date(Date.of.Purchase, format = "%d/%b/%Y"),
-              Date.of.Expiry = as.Date(Date.of.Expiry, format = "%d/%b/%Y"))
+        mutate(Journal.Date = as.Date(Journal.Date, format = %d/%b/%Y), 
+              Date.of.Purchase = as.Date(Date.of.Purchase, format = %d/%b/%Y),
+              Date.of.Expiry = as.Date(Date.of.Expiry, format = %d/%b/%Y))
 
     # Money
     # The presence of commas is throwing off the conversion directly from char to numeric
     # Therefore, we remove the commas using gsub, and then convert the values
 
     df_buyer <- df_buyer |> 
-        mutate(Denominations = as.integer(gsub(",","", Denominations)))
+        mutate(Denominations = as.integer(gsub(,,, Denominations)))
 
     ```
 
@@ -194,12 +200,12 @@ rm(pakg)
 
     # Date
     df_party <-  df_party |> 
-        mutate(Date.of.Encashment = as.Date(Date.of.Encashment, format = "%d/%b/%Y"))
+        mutate(Date.of.Encashment = as.Date(Date.of.Encashment, format = %d/%b/%Y))
 
     # Money 
 
     df_party <- df_party |> 
-        mutate(Denominations = as.integer(gsub(",","",Denominations)))
+        mutate(Denominations = as.integer(gsub(,,,Denominations)))
 
     ```
 
@@ -226,8 +232,8 @@ rm(pakg)
 
     ```{r}
 
-    print(paste(sum(is.na(df_party)),": NA in df_party"))
-    print(paste(sum(is.na(df_buyer)),"NA in :df_buyer"))
+    print(paste(sum(is.na(df_party)),: NA in df_party))
+    print(paste(sum(is.na(df_buyer)),NA in :df_buyer))
 
 
     ```
@@ -250,7 +256,7 @@ df_party[!complete.cases(df_party), ]
 ```{r}
 
 df_buyer <- df_buyer |> 
-    filter(!grepl("Reference", Reference.No...URN.))
+    filter(!grepl(Reference, Reference.No...URN.))
 
 df_buyer[!complete.cases(df_buyer), ]
 ```
@@ -260,7 +266,7 @@ For df_party
 ```{r}
 
 df_party <- df_party |> 
-    filter(!grepl("Name", Name.of.the.Political.Party))
+    filter(!grepl(Name, Name.of.the.Political.Party))
 
 df_party[!complete.cases(df_party), ]
 ```
@@ -273,11 +279,11 @@ df_party[!complete.cases(df_party), ]
     #| label: Missing rows: buyer
 
     miss_buyer <- setdiff(1:18871, df_buyer$Sr.No.)
-    print(paste("Buyer Missing:",length(miss_buyer)))
+    print(paste(Buyer Missing:,length(miss_buyer)))
     miss_buyer
 
     miss_party <- setdiff(1:20421, df_party$Sr.No.)
-    print(paste("Party Missing:", length(miss_party)))
+    print(paste(Party Missing:, length(miss_party)))
     miss_party
 
     rm(miss_party,miss_buyer)
@@ -293,7 +299,7 @@ df_party[!complete.cases(df_party), ]
     ```{r}
     #| label: Missing party data
 
-    df_miss_party <- read.csv("./data/raw/tabula_miss_party.csv")
+    df_miss_party <- read.csv(./data/raw/tabula_miss_party.csv)
 
     glimpse(df_miss_party)
 
@@ -311,12 +317,12 @@ df_miss_party <- df_miss_party |>
 
 # Date
 df_miss_party <-  df_miss_party |> 
-    mutate(Date.of.Encashment = as.Date(Date.of.Encashment, format = "%d/%b/%Y"))
+    mutate(Date.of.Encashment = as.Date(Date.of.Encashment, format = %d/%b/%Y))
 
 # Money 
 
 df_miss_party <- df_miss_party |> 
-    mutate(Denominations = as.integer(gsub(",","",Denominations)))
+    mutate(Denominations = as.integer(gsub(,,,Denominations)))
 
 df_miss_party <- unique(df_miss_party)
 
@@ -339,7 +345,7 @@ Bond number is a unique identifier across both the df_party and df_buyer data fr
 
 # str(df_buyer$Bond.Number, df_party$Bond.Number)
 
-print ("Buyer purchased bonds not encashed")
+print (Buyer purchased bonds not encashed)
 bought_notcashed <- setdiff(df_buyer$Bond.Number,df_party$Bond.Number)
 print(length(bought_notcashed))
 bought_notcashed
@@ -348,7 +354,7 @@ rm(bought_notcashed)
 
 # ------
 
-print ("Party encashed bonds not in buyer")
+print (Party encashed bonds not in buyer)
 cashed_notbought <- setdiff(df_party$Bond.Number, df_buyer$Bond.Number)
 print(length(cashed_notbought))
 sort(cashed_notbought)
@@ -363,12 +369,12 @@ rm(cashed_notbought)
 10. Looking at gaps using both Bond Number and prefix
 
 ```{r}
-anti_join(df_buyer, df_party, by = c("Bond.Number","Prefix"))
+anti_join(df_buyer, df_party, by = c(Bond.Number,Prefix))
 
 # 18871-130 = 18741 linked from buyer to party
 # We have merged the party data frame into df_buyer so as to keep all the names of buyers and amounts, even if we do not have data on the redemption
 
-anti_join(df_party, df_buyer, by = c("Bond.Number","Prefix"))
+anti_join(df_party, df_buyer, by = c(Bond.Number,Prefix))
 
 # We will use this data frame for the unknown buyer set 
 # 20421 - 1680 = 18941
@@ -379,15 +385,15 @@ anti_join(df_party, df_buyer, by = c("Bond.Number","Prefix"))
 Bonds purchased
 
 ```{r}
-print(paste("Value bonds purchased", sum(df_buyer$Denominations)))
+print(paste(Value bonds purchased, sum(df_buyer$Denominations)))
 
-print(paste("Value bonds encashed", sum(df_party$Denominations)))
+print(paste(Value bonds encashed, sum(df_party$Denominations)))
 
 z <- (sum(df_buyer$Denominations)- sum(df_party$Denominations))
     
 z
 
-print(paste("Purchased - Encashed: ", z/10^7 , " crore"))
+print(paste(Purchased - Encashed: , z/10^7 ,  crore))
 
 rm(z)
 ```
@@ -403,9 +409,9 @@ We want to create 2 separate data frames
 ```{r}
 #| label: merging files to keep all buyer details
 
-df_merge_buyerParty <-  left_join(df_buyer,df_party[,c("Name.of.the.Political.Party", "Denominations", "Bond.Number", "Prefix")], by = c("Bond.Number", "Prefix"))
+df_merge_buyerParty <-  left_join(df_buyer,df_party[,c(Name.of.the.Political.Party, Denominations, Bond.Number, Prefix)], by = c(Bond.Number, Prefix))
 
-save(df_merge_buyerParty, file = "./data/processed/df_merge_buyerParty.Rda")
+save(df_merge_buyerParty, file = ./data/processed/df_merge_buyerParty.Rda)
 
 # We check if the buyer amount and party encashed amount are not matching
 # They are matching. So we can proceed to the data frame cleanup operations
@@ -422,7 +428,7 @@ Creating the second data frame, of bonds encashed but there is no linked buyer p
 ```{r}
 #| label: bonds encashed but there is no linked buyer party
 
-df_unknownBuyer <- anti_join(df_party, df_buyer, by = c("Bond.Number","Prefix"))
+df_unknownBuyer <- anti_join(df_party, df_buyer, by = c(Bond.Number,Prefix))
 
 
 df_unknownBuyer |> 
@@ -450,31 +456,47 @@ df_sum_unknownBuyer <- df_unknownBuyer |>
     summarise(amount_rcvd = sum(Denominations)) |> 
     arrange(desc(amount_rcvd))
 
-save(df_sum_unknownBuyer, file = "./data/processed/df_sum_unknownBuyer.Rda")
+save(df_sum_unknownBuyer, file = ./data/processed/df_sum_unknownBuyer.Rda)
 
-save(df_unknownBuyer, file = "./data/processed/df_unknownBuyer.Rda")
+save(df_unknownBuyer, file = ./data/processed/df_unknownBuyer.Rda)
 
 
 ```
 
 ### Step 7: Cleaning Names
 
-1.  Consolidating based on Names and Dates
+1.  Review of names and dates
 
     ```{r}
     #| label: variable name cleaning
 
-    ls(df_merge_buyerParty)
+    var_names <- ls(df_merge_buyerParty)
 
     # names(df_merge_buyerParty)
     ```
 
 2.  Cleaning variable/column names
 
-3.  \[. followed by small case to be removed\]
+```{r}
 
-    ```         
-    names(frame) <- sub("\.$", "", names(frame))
-    ```
+colnames(df_merge_buyerParty)
 
-4.  
+df_merge_buyerParty <- df_merge_buyerParty %>% 
+    rename(sr_no = Sr.No.,
+           ref_urn = Reference.No...URN.,
+           date_journal = Journal.Date,
+           date_purchase = Date.of.Purchase,
+           date_expiry = Date.of.Expiry,
+           name_buyer  = Name.of.the.Purchaser,
+           denominations = Denominations.x,
+           name_party  = Name.of.the.Political.Party)
+
+
+
+names(df_merge_buyerParty) <-  tolower(names(df_merge_buyerParty))
+
+names(df_merge_buyerParty) <- sub("\\.", "_", names(df_merge_buyerParty))
+
+colnames(df_merge_buyerParty)
+
+```
