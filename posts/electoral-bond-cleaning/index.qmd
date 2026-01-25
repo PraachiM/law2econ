@@ -500,3 +500,20 @@ names(df_merge_buyerParty) <- sub("\\.", "_", names(df_merge_buyerParty))
 colnames(df_merge_buyerParty)
 
 ```
+
+### Consolidating and cleaning of buyer names
+
+1.  Consolidation buyer - party -dates
+
+2.  Cleaning names
+
+```{r}
+#| label: saving for use with sublime text
+
+df_merge_buyerParty |> 
+    select(name_buyer) |> 
+    unique() |> 
+    capture.output() |> 
+    writeLines("./data/processed/namesBuyers.txt")
+
+```
