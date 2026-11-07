@@ -21,17 +21,10 @@
     "text": "This is a post with executable code.\n\n1 + 1\n\n[1] 2"
   },
   {
-    "objectID": "posts/electoral-bond-cleaning/start.html",
-    "href": "posts/electoral-bond-cleaning/start.html",
-    "title": "start/Electoral Bond data: Making it usable",
-    "section": "",
-    "text": "load(“./data/processed/df_merge_buyerParty.Rda”)\n\npakg &lt;- c(\"dplyr\", \"lubridate\", \"stringr\", \"tidyr\", \"ggplot2\", \"here\")\n\nsapply(pakg, library, character.only = TRUE)\n\n\nAttaching package: 'dplyr'\n\n\nThe following objects are masked from 'package:stats':\n\n    filter, lag\n\n\nThe following objects are masked from 'package:base':\n\n    intersect, setdiff, setequal, union\n\n\n\nAttaching package: 'lubridate'\n\n\nThe following objects are masked from 'package:base':\n\n    date, intersect, setdiff, union\n\n\nhere() starts at /Users/misra.praachi/repos/blog_law2econ\n\n\n$dplyr\n[1] \"dplyr\"     \"stats\"     \"graphics\"  \"grDevices\" \"utils\"     \"datasets\" \n[7] \"methods\"   \"base\"     \n\n$lubridate\n[1] \"lubridate\" \"dplyr\"     \"stats\"     \"graphics\"  \"grDevices\" \"utils\"    \n[7] \"datasets\"  \"methods\"   \"base\"     \n\n$stringr\n [1] \"stringr\"   \"lubridate\" \"dplyr\"     \"stats\"     \"graphics\"  \"grDevices\"\n [7] \"utils\"     \"datasets\"  \"methods\"   \"base\"     \n\n$tidyr\n [1] \"tidyr\"     \"stringr\"   \"lubridate\" \"dplyr\"     \"stats\"     \"graphics\" \n [7] \"grDevices\" \"utils\"     \"datasets\"  \"methods\"   \"base\"     \n\n$ggplot2\n [1] \"ggplot2\"   \"tidyr\"     \"stringr\"   \"lubridate\" \"dplyr\"     \"stats\"    \n [7] \"graphics\"  \"grDevices\" \"utils\"     \"datasets\"  \"methods\"   \"base\"     \n\n$here\n [1] \"here\"      \"ggplot2\"   \"tidyr\"     \"stringr\"   \"lubridate\" \"dplyr\"    \n [7] \"stats\"     \"graphics\"  \"grDevices\" \"utils\"     \"datasets\"  \"methods\"  \n[13] \"base\"     \n\nrm(pakg)\n\nhere()\n\n[1] \"/Users/misra.praachi/repos/blog_law2econ\"\n\n# get file path & use load function\n\n# load(\"./data/processed/df_buyer.Rda\")\n \n# load( \"./data/processed/df_party.Rda\")\n\nload(\"./data/processed/df_merge_buyerParty.Rda\")\n\n\n# \n# save(df_buyer, file = \"./data/processed/df_buyer.Rda\")\n# \n# save(df_party, file = \"./data/processed/df_party.Rda\")\n\nsave(df_merge_buyerParty, file = \"./data/processed/df_merge_buyerParty.Rda\")\n\n\nlibrary(skimr)\nlibrary(gt)\nlibrary(gtsummary)\nlibrary(modelsummary)"
-  },
-  {
     "objectID": "index.html",
     "href": "index.html",
     "title": "law2econ",
     "section": "",
-    "text": "start/Electoral Bond data: Making it usable\n\n\n\n\n\n\n\n\nPraachi Misra\n\n\n\n\n\n\n\n\n\n\n\n\nPost With Code\n\n\n\nnews\n\ncode\n\nanalysis\n\n\n\n\n\n\n\n\n\nDec 9, 2025\n\n\nHarlow Malloc\n\n\n\n\n\n\n\n\n\n\n\n\nWelcome To My Blog\n\n\n\nnews\n\n\n\n\n\n\n\n\n\nDec 6, 2025\n\n\nTristan O’Malley\n\n\n\n\n\nNo matching items"
+    "text": "Post With Code\n\n\n\nnews\n\ncode\n\nanalysis\n\n\n\n\n\n\n\n\n\nDec 9, 2025\n\n\nHarlow Malloc\n\n\n\n\n\n\n\n\n\n\n\n\nWelcome To My Blog\n\n\n\nnews\n\n\n\n\n\n\n\n\n\nDec 6, 2025\n\n\nTristan O’Malley\n\n\n\n\n\nNo matching items"
   }
 ]
