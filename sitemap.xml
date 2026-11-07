@@ -1,19 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://your-website-url.example.com/about.html</loc>
-    <lastmod>2025-12-09T13:36:05.332Z</lastmod>
+    <loc>https://law2econ.org/about.html</loc>
+    <lastmod>2026-01-04T11:47:00.774Z</lastmod>
   </url>
   <url>
-    <loc>https://your-website-url.example.com/posts/welcome/index.html</loc>
+    <loc>https://law2econ.org/posts/welcome/index.html</loc>
     <lastmod>2025-12-09T13:28:57.581Z</lastmod>
   </url>
   <url>
-    <loc>https://your-website-url.example.com/posts/post-with-code/index.html</loc>
+    <loc>https://law2econ.org/posts/post-with-code/index.html</loc>
     <lastmod>2025-12-09T13:28:57.582Z</lastmod>
   </url>
   <url>
-    <loc>https://your-website-url.example.com/index.html</loc>
-    <lastmod>2025-12-09T13:36:05.332Z</lastmod>
+    <loc>https://law2econ.org/posts/electoral-bond-cleaning/start.html</loc>
+    <lastmod>2026-01-25T14:00:24.507Z</lastmod>
+  </url>
+  <url>
+    <loc>https://law2econ.org/index.html</loc>
+    <lastmod>2025-12-09T14:00:21.690Z</lastmod>
   </url>
 </urlset>
