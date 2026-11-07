@@ -1,30 +1,51 @@
 [
   {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About",
+    "objectID": "blog.html",
+    "href": "blog.html",
+    "title": "Blog",
     "section": "",
-    "text": "About this blog\nHi, this is Praachi 👋. I am a new student of economics, with many years of experience as a lawyer.\nMost of what I am studying now is both new and hard for me. The maths; analysis using R, STATA or python; econometrics; models of thinking about problems: all of it is a steep learning curve, but very satisfactory.\nOne of the primary reasons for choosing law after school was to get away from maths. However, as one learns over time, there is really no getting away from logic or maths. So here I am, very slowly working my way through them.\nThe blog is me documenting my research and analysis."
+    "text": "No matching items"
   },
   {
-    "objectID": "posts/welcome/index.html",
-    "href": "posts/welcome/index.html",
-    "title": "Welcome To My Blog",
+    "objectID": "research.html",
+    "href": "research.html",
+    "title": "Research",
     "section": "",
-    "text": "This is the first post in a Quarto blog. Welcome!\n\nSince this post doesn’t specify an explicit image, the first image in the post will be used in the listing page of posts."
+    "text": "Coming soon."
   },
   {
-    "objectID": "posts/post-with-code/index.html",
-    "href": "posts/post-with-code/index.html",
-    "title": "Post With Code",
+    "objectID": "research.html#papers",
+    "href": "research.html#papers",
+    "title": "Research",
     "section": "",
-    "text": "This is a post with executable code.\n\n1 + 1\n\n[1] 2"
+    "text": "Coming soon."
+  },
+  {
+    "objectID": "research.html#ongoing-projects",
+    "href": "research.html#ongoing-projects",
+    "title": "Research",
+    "section": "Ongoing projects",
+    "text": "Ongoing projects\n\nCommercial courts — working of The Commercial Courts Act, 2015.\nLand related disputes and transaction in Uttar Pradesh under The Uttar Pradesh Revenue Code 2006"
+  },
+  {
+    "objectID": "teaching.html",
+    "href": "teaching.html",
+    "title": "Teaching",
+    "section": "",
+    "text": "ECO582 Law & Economics, Prof. Jeemol Unni (Graduate & Undergraduate, Monsoon,2026)"
+  },
+  {
+    "objectID": "teaching.html#teaching-assistant",
+    "href": "teaching.html#teaching-assistant",
+    "title": "Teaching",
+    "section": "",
+    "text": "ECO582 Law & Economics, Prof. Jeemol Unni (Graduate & Undergraduate, Monsoon,2026)"
   },
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "law2econ",
+    "title": "Praachi Misra",
     "section": "",
-    "text": "Post With Code\n\n\n\nnews\n\ncode\n\nanalysis\n\n\n\n\n\n\n\n\n\nDec 9, 2025\n\n\nHarlow Malloc\n\n\n\n\n\n\n\n\n\n\n\n\nWelcome To My Blog\n\n\n\nnews\n\n\n\n\n\n\n\n\n\nDec 6, 2025\n\n\nTristan O’Malley\n\n\n\n\n\nNo matching items"
+    "text": "I am a PhD student in economics and public policy, and a former lawyer. My areas of interest:\n\nLaw and economics\nCommercial courts and dispute resolution\nEconomics of regulation\n\nMoving from law to economics has meant learning the maths, R, econometrics and new ways of modelling problems: a steep learning curve, but a satisfying one."
   }
 ]
